@@ -1,8 +1,7 @@
 import vkapi
-# import random
-from listGames import games
+import random
+from listGames import games, twtch
 myGroupId = 147802225
-# games = [['dota2', 'dota', 'дота', 'дотан', 'дотка', '.']]
 def get_answer(body):
     message = "Привет, для какой игры хочешь найти тиммейта?"
     return message
@@ -40,7 +39,7 @@ def create_answer(data, token):
     elif (usersRequest[0] == 'help'):
         help_information(token, user_id)
     elif (usersRequest[0] == 'twitch'):
-        get_video_twitch(token, user_id)
+        get_video_twitch(usersRequest[1], token, user_id)
     else: vkapi.send_message(user_id, token, message)
 
 
@@ -67,11 +66,14 @@ def help_information(token, user_id):
                'play [название игры] - ищет людей для совместной игры')
     vkapi.send_message(user_id, token, message)
 
-def get_video_twitch(token, user_id):
+def get_video_twitch(nameGame, token, user_id):
     # max_num = vkapi.api.video.get(owner_id = -147802225)['count']
     # num = 0
-    # videoid = vkapi.api.video.getAlbums(owner_id = 167542207)
-    resp2 = vkapi.api.video.get(owner_id = str(-147802225))
-    message = 'Вот видео:' + str(resp2)
+    # resp2 = vkapi.api.video.get(owner_id = str(-147802225))
+    message = "К сожалению, по этой игре ещё нет ни одного видео. Обратитесь к разработчикам"
+    if (twtch.get(nameGame) != None):
+        attachment = 'video' + str(-myGroupId) + '_' + str(twtch[nameGame][random.randint(0, len(twtch[nameGame])-1)])
+        message = "Вот случайное видео с твитча по игре " + nameGame# + " " + str(twtch[nameGame][random.randint(0, len(twtch[nameGame])-1)])
+
     # attachment = 'video' + str(-myGroupId) + '_' + str(456239021)
-    vkapi.send_message(user_id, token, message)#, attachment)
+    vkapi.send_message(user_id, token, message, attachment)

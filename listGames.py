@@ -32,3 +32,5 @@ games = [
     ['panzar'],
     ['pw', 'perfect world']
 ]
+
+twtch = {'dota2': [456239021, 456239020]}
