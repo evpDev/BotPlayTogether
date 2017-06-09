@@ -7,18 +7,20 @@ def get_answer(body):
     message = "Привет, для какой игры хочешь найти тиммейта?"
     return message
 
-def filterByGame(nameGame):#127955715
+def filterByGame(nameGame, user_id):#127955715
     resp = vkapi.api.groups.getMembers(group_id = 147802225, fields = ['status'])['users']
     # resp2 = [vkapi.api.board.getComments(group_id = 147802225, topic_id = 35489751)['items'][i]['text'] for i in range(1,vkapi.api.board.getComments(group_id = 147802225, topic_id = 35489751)['count'])]
     resp2 = vkapi.api.board.getComments(group_id = 147802225, topic_id = 35489751)['items']
     hums = []
     findGame = [name for game in games if game[0] == nameGame for name in game]
     for hum in resp:
+        if (hum['id'] == user_id): continue
         endBracket = str(hum['status']).find(']')
         if endBracket > -1 and str(hum['status'])[1:endBracket] in findGame:
             online = 'online' if vkapi.api.users.get(user_ids = hum['id'], fields = ['online'])[0]['online'] else 'offline'
             hums.append([str(hum['id']),str(hum['last_name']),str(hum['first_name']),str(hum['status'])[endBracket+1:], online])
     for hum in resp2:
+        if (hum['from_id'] == user_id): continue
         endBracket = str(hum['text']).find(']')
         strtext = str(hum['text']).lower()
         if endBracket > -1 and strtext[1:endBracket] in findGame:
@@ -50,7 +52,7 @@ def people_search(usersGame, token, user_id):
                 nameGame = game[0]
                 message = ('Нет людей, готовых сейчас сыграть с Вами3(\nВведите название другой игры или подождите, ' +
                           'оставив в своём статусе заявку в формате:\n[Название игры]дополнительные сведения')
-                resp = filterByGame(nameGame)
+                resp = filterByGame(nameGame, user_id)
                 # message = str(vkapi.api.users.get(user_ids = 167542207, fields = ['online'])[0]['online'])
                 if resp: message = 'Вот люди, которые готовы сыграть:\n'
                 for hum in resp:
