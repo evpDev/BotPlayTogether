@@ -33,4 +33,17 @@ games = [
     ['pw', 'perfect world']
 ]
 
-twtch = {'dota2': [456239021, 456239020]}
+twtch = {
+    'dota2': { 
+        'rand': [456239021, 456239020],
+        'a1taoda': 456239021,
+        'dota2ruhub': 456239020
+    }, 'cs': {
+        'rand': [456239025],
+        'starladder5': 456239025
+    }, 'lol': {
+        'rand': [456239024, 456239023],
+        'imaqtpie': 456239024,
+        'garenatw': 456239023
+    }
+}
