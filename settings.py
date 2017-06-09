@@ -1,0 +1,2 @@
+token = '3d845b16d1e9555728f074b837a96b2afb1edfa971ebc6992b91b7d157da58f0f6de76e02501bfbb4f38e'
+confirmation_token = 'c5f4b2e4'
